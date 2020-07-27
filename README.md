@@ -1,2 +1,2 @@
-# Database_Management_System
+# Database Management System
 Database Management System
