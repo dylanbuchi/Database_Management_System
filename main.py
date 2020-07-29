@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.ttk
 import datetime
 import time
 import sqlite3
@@ -66,11 +67,40 @@ class School():
         self.message = tk.Label(text='')
         self.message.grid(row=8, column=1)
 
+        # -------------------DATA TABLE TREE BLOC DISPLAY--------------------------------------
+        self.tree = tk.ttk.Treeview(height=10, column=['', '', '', '', '', ''])
+        self.tree.grid(row=9, column=0, columnspan=3)
+
+        self.tree.heading('#0', text='ID')
+        self.tree.column('#0', width=50)
+
+        self.tree.heading('#1', text='First name')
+        self.tree.column('#1', width=100)
+
+        self.tree.heading('#2', text='Last name')
+        self.tree.column('#2', width=100)
+
+        self.tree.heading('#3', text='Username')
+        self.tree.column('#3', width=100)
+
+        self.tree.heading('#4', text='Email')
+        self.tree.column('#4', width=100)
+
+        self.tree.heading('#5', text='Subject')
+        self.tree.column('#5', width=100)
+
+        self.tree.heading('#6', text='Age')
+        self.tree.column('#6', width=50)
+
+    def get_date(self):
+
+        return datetime.datetime.now()
+
 
 if __name__ == '__main__':
 
     root = tk.Tk()
-    root.geometry('500x500')
+    root.geometry('700x700')
 
     app = School(root)
     root.mainloop()
