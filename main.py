@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk
 import datetime
 import time
-import sqlite3
+import sqlite3 as sql
 
 
 class School():
@@ -84,7 +84,7 @@ class School():
         self.tree.column('#3', width=100)
 
         self.tree.heading('#4', text='Email')
-        self.tree.column('#4', width=100)
+        self.tree.column('#4', width=140)
 
         self.tree.heading('#5', text='Subject')
         self.tree.column('#5', width=100)
@@ -92,9 +92,49 @@ class School():
         self.tree.heading('#6', text='Age')
         self.tree.column('#6', width=50)
 
-    def get_date(self):
+        # ------------------MENU BAR--------------------------------------
+        menu = tk.Menu()
+        item_menu = tk.Menu()
 
-        return datetime.datetime.now()
+        item_menu.add_command(label='Add Record')
+        item_menu.add_command(label='Edit Record')
+        item_menu.add_command(label='Delete Record')
+        item_menu.add_separator()
+        item_menu.add_command(label='Help')
+        item_menu.add_command(label='Exit')
+
+        menu.add_cascade(label='File', menu=item_menu)
+        menu.add_cascade(label='Add')
+        menu.add_cascade(label='Edit')
+        menu.add_cascade(label='Delete')
+        menu.add_cascade(label='Help')
+        menu.add_cascade(label='Exit')
+
+        root.config(menu=menu)
+
+        # ------------------VIEW RECORDS--------------------------------------
+        self.show_records()
+
+    def show_records(self):
+        # show the databse records
+        records = self.tree.get_children()
+
+        for record in records:
+            self.tree.delete(record)
+
+        command = 'SELECT * FROM students'
+        db_rows = self.connect_database(command)
+
+        for db_row in db_rows:
+            self.tree.insert('', 1000, text=db_row[0], values=db_row[1:])
+
+    def connect_database(self, command):
+        # connect db
+        with sql.connect(self.db_name) as db:
+            cursor = db.cursor()
+            result = cursor.execute(command)
+            db.commit()
+        return result
 
 
 if __name__ == '__main__':
